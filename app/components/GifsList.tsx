@@ -48,7 +48,8 @@ function GifsList() {
             if (!program) {
                 throw new Error("Failed to get program");
             }
-            await program.methods.addGif(inputValue)
+            await program.methods
+                .addGif(inputValue)
                 .accounts({
                     baseAccount: baseAccount.publicKey,
                     user: provider.wallet.publicKey,
@@ -140,11 +141,15 @@ function GifsList() {
             console.log("ping");
 
             // Chamada do método usando program.methods
-            await program.methods.startStuffOff().accounts({
-                baseAccount: baseAccount.publicKey,
-                user: provider.wallet.publicKey,
-                systemProgram: SystemProgram.programId,
-            }).signers([baseAccount]).rpc();
+            await program.methods
+                .startStuffOff()
+                .accounts({
+                    baseAccount: baseAccount.publicKey,
+                    user: provider.wallet.publicKey,
+                    systemProgram: SystemProgram.programId,
+                })
+                .signers([baseAccount])
+                .rpc();
 
             console.log("Created a new BaseAccount w/ address:", baseAccount.publicKey.toString());
             await getGifList();
