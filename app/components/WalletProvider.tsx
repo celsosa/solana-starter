@@ -13,7 +13,11 @@ import {
     WalletModalProvider,
     WalletMultiButton
 } from "@solana/wallet-adapter-react-ui";
-import { clusterApiUrl } from '@solana/web3.js';
+
+import {
+    Program, AnchorProvider, web3
+} from '@project-serum/anchor';
+import { clusterApiUrl, PublicKey } from '@solana/web3.js';
 
 // Default styles that can be overridden by your app
 require('@solana/wallet-adapter-react-ui/styles.css');
@@ -26,6 +30,15 @@ export const Wallet: FC<Props> = ({ children }) => {
     // The network can be set to 'devnet', 'testnet', or 'mainnet-beta'.
     const network = WalletAdapterNetwork.Devnet;
 
+    const { SystemProgram, Keypair } = web3;
+
+    let baseAccount = Keypair.generate();
+
+    const programID = new PublicKey('5hf2hUt5ufTg6Kki8VP1YpYUSMiYG527HjLk1fKjDAkY');
+
+    const opts = {
+        preflightCommitment: "processed"
+    }
 
     // You can also provide a custom RPC endpoint.
     const endpoint = useMemo(() => clusterApiUrl(network), [network]);
